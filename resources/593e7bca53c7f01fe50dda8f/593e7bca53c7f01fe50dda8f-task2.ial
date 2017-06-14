@@ -1,0 +1,131 @@
+institution task2;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Task 2 ----------
+
+exogenous event kill(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Task 2 ----------
+violation event noViolation;
+
+% INST EVENTS: Task 2 ----------
+
+inst event intKill(Agent, Agent);
+inst event intGo(Agent, PlaceName);
+inst event intTask2(Agent, Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Task 2 ----------
+intTask2(R, S, T, U, V) initiates
+    phase(task2, phaseA),
+    perm((R)) if
+        phase(task2, active),
+        role(R, hero);
+intTask2(R, S, T, U, V) initiates
+    phase(task2, phaseB),
+    perm((S, T)) if
+        phase(task2, phaseA),
+        role(S, villain),
+        object(T, evilPlan);
+intTask2(R, S, T, U, V) initiates
+    phase(task2, phaseC),
+    perm(kill(R, S)) if
+        phase(task2, phaseB),
+        role(R, hero),
+        role(S, villain);
+intTask2(R, S, T, U, V) initiates
+    phase(task2, phaseD),
+    perm(go(R, V)) if
+        phase(task2, phaseC),
+        role(R, hero),
+        place(V, landOfAdventure);
+% TERMINATES: Task 2 ----------
+intTask2(R, S, T, U, V) terminates
+    phase(task2, active),
+    perm(go(R, U)) if
+        phase(task2, active),
+        role(R, hero),
+        place(U, lair);
+intTask2(R, S, T, U, V) terminates
+    phase(task2, phaseA),
+    perm((R)) if
+        phase(task2, phaseA),
+        role(R, hero);
+intTask2(R, S, T, U, V) terminates
+    phase(task2, phaseB),
+    perm((S, T)) if
+        phase(task2, phaseB),
+        role(S, villain),
+        object(T, evilPlan);
+intTask2(R, S, T, U, V) terminates
+    phase(task2, phaseC),
+    perm(kill(R, S)) if
+        phase(task2, phaseC),
+        role(R, hero),
+        role(S, villain);
+intTask2(R, S, T, U, V) terminates
+    phase(task2, phaseD),
+    perm(go(R, V)) if
+        phase(task2, phaseD),
+        role(R, hero),
+        place(V, landOfAdventure);
+
+
+% GENERATES: Task 2 ----------
+go(R, V) generates
+    intTask2(R, S, T, U, V) if
+        role(R, hero),
+        place(V, landOfAdventure);
+go(R, U) generates
+    intTask2(R, S, T, U, V) if
+        role(R, hero),
+        place(U, lair);
+(R) generates
+    intTask2(R, S, T, U, V) if
+        role(R, hero);
+(S, T) generates
+    intTask2(R, S, T, U, V) if
+        role(S, villain),
+        object(T, evilPlan);
+kill(R, S) generates
+    intTask2(R, S, T, U, V) if
+        role(R, hero),
+        role(S, villain);
+
+% INITIALLY: -----------
+initially
+    pow(intTask2(R, S, T, U, V)) if role(R, hero), role(S, villain), object(T, evilPlan), place(U, lair), place(V, landOfAdventure);
+initially
+    perm(intTask2(R, S, T, U, V)) if role(R, hero), role(S, villain), object(T, evilPlan), place(U, lair), place(V, landOfAdventure);
+initially
+    perm(go(R, U)) if role(R, hero), place(U, lair);
+initially
+    phase(task2, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(lair, lair),
+    place(landOfAdventure, landOfAdventure),
+    object(weapon, weapon),
+    object(evilPlan, evilPlan);

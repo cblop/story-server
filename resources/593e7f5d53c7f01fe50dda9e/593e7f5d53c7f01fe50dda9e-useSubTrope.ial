@@ -1,0 +1,143 @@
+institution useSubTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Use Sub Trope ----------
+
+exogenous event train(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event equip(Agent, ObjectName);
+exogenous event meet(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Use Sub Trope ----------
+violation event noViolation;
+
+% INST EVENTS: Use Sub Trope ----------
+
+inst event intTrain(Agent, Agent);
+inst event intGo(Agent, PlaceName);
+inst event intStartTask2;
+inst event intEquip(Agent, ObjectName);
+inst event intMeet(Agent, Agent);
+inst event intUseSubTrope(Agent, Agent, ObjectName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Use Sub Trope ----------
+intUseSubTrope(R, S, T, U) initiates
+    phase(useSubTrope, phaseA),
+    perm(meet(R, S)) if
+        phase(useSubTrope, active),
+        role(R, hero),
+        role(S, mentor);
+intUseSubTrope(R, S, T, U) initiates
+    phase(useSubTrope, phaseB),
+    perm(equip(S, T)) if
+        phase(useSubTrope, phaseA),
+        role(S, mentor),
+        object(T, fightingStick);
+intUseSubTrope(R, S, T, U) initiates
+    phase(useSubTrope, phaseC),
+    perm(train(R, S)) if
+        phase(useSubTrope, phaseB),
+        role(S, mentor),
+        role(R, hero);
+intUseSubTrope(R, S, T, U) initiates
+    phase(useSubTrope, phaseD) if
+        phase(useSubTrope, phaseC);
+% TERMINATES: Use Sub Trope ----------
+intUseSubTrope(R, S, T, U) terminates
+    phase(useSubTrope, active),
+    perm(go(R, U)) if
+        phase(useSubTrope, active),
+        role(R, hero),
+        place(U, trainingPlace);
+intUseSubTrope(R, S, T, U) terminates
+    phase(useSubTrope, phaseA),
+    perm(meet(R, S)) if
+        phase(useSubTrope, phaseA),
+        role(R, hero),
+        role(S, mentor);
+intUseSubTrope(R, S, T, U) terminates
+    phase(useSubTrope, phaseB),
+    perm(equip(S, T)) if
+        phase(useSubTrope, phaseB),
+        role(S, mentor),
+        object(T, fightingStick);
+intUseSubTrope(R, S, T, U) terminates
+    phase(useSubTrope, phaseC),
+    perm(train(R, S)) if
+        phase(useSubTrope, phaseC),
+        role(S, mentor),
+        role(R, hero);
+intUseSubTrope(R, S, T, U) terminates
+    phase(useSubTrope, phaseD) if
+        phase(useSubTrope, phaseD);
+
+
+% GENERATES: Use Sub Trope ----------
+train(R, T) generates
+    intStartTask2 if
+        role(T, mentor),
+        role(R, hero),
+        phase(useSubTrope, phaseC);
+
+meet(R, S) generates
+    intUseSubTrope(R, S, T, U) if
+        role(R, hero),
+        role(S, mentor);
+go(R, U) generates
+    intUseSubTrope(R, S, T, U) if
+        role(R, hero),
+        place(U, trainingPlace);
+equip(S, T) generates
+    intUseSubTrope(R, S, T, U) if
+        role(S, mentor),
+        object(T, fightingStick);
+train(R, S) generates
+    intUseSubTrope(R, S, T, U) if
+        role(S, mentor),
+        role(R, hero);
+
+% INITIALLY: -----------
+initially
+    pow(intStartTask2);
+initially
+    pow(intUseSubTrope(R, S, T, U)) if role(R, hero), role(S, mentor), object(T, fightingStick), place(U, trainingPlace);
+initially
+    perm(intStartTask2);
+initially
+    perm(intUseSubTrope(R, S, T, U)) if role(R, hero), role(S, mentor), object(T, fightingStick), place(U, trainingPlace);
+initially
+    perm(go(R, U)) if role(R, hero), place(U, trainingPlace);
+initially
+    phase(useSubTrope, active),
+    role(hero, hero),
+    role(mentor, mentor),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(trainingPlace, trainingPlace),
+    place(home, home),
+    place(lair, lair),
+    place(landOfAdventure, landOfAdventure),
+    object(fightingStick, fightingStick),
+    object(weapon, weapon),
+    object(evilPlan, evilPlan);

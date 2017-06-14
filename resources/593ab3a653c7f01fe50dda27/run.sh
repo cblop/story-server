@@ -1,0 +1,1 @@
+python3 instal-linux/instalquery.py -v -i resources/constraint.lp resources/593ab3a653c7f01fe50dda27/593ab3a653c7f01fe50dda27-newTrope.ial -l 5 -n 500 -j resources/593ab3a653c7f01fe50dda27/json -d resources/593ab3a653c7f01fe50dda27/domain-593ab3a653c7f01fe50dda27.idc

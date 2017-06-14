@@ -1,0 +1,85 @@
+institution example2;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Example 2 ----------
+exogenous event die(Agent);
+exogenous event find(Agent, ObjectName);
+exogenous event go_home(Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Example 2 ----------
+violation event noViolation;
+
+% INST EVENTS: Example 2 ----------
+inst event intFind(Agent, ObjectName);
+inst event intDie(Agent);
+inst event intGo_home(Agent);
+inst event intExample2(Agent, ObjectName, ObjectName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Example 2 ----------
+% TERMINATES: Example 2 ----------
+intExample2(R, S, T) terminates
+    phase(example2, active),
+    perm(go_home(R)),
+    perm(find(R, S)),
+    perm(find(R, T)),
+    perm(die(R)) if
+        phase(example2, active),
+        object(T, shield),
+        role(R, hero),
+        object(S, sword);
+
+
+% GENERATES: Example 2 ----------
+find(R, S) generates
+    intExample2(R, S, T) if
+        role(R, hero),
+        object(S, sword);
+find(R, T) generates
+    intExample2(R, S, T) if
+        role(R, hero),
+        object(T, shield);
+die(R) generates
+    intExample2(R, S, T) if
+        role(R, hero);
+go_home(R) generates
+    intExample2(R, S, T) if
+        role(R, hero);
+
+% INITIALLY: -----------
+initially
+    pow(intExample2(R, S, T)) if role(R, hero), object(S, sword), object(T, shield);
+initially
+    perm(intExample2(R, S, T)) if role(R, hero), object(S, sword), object(T, shield);
+initially
+    perm(go_home(R)) if role(R, hero);
+initially
+    perm(find(R, S)) if role(R, hero), object(S, sword);
+initially
+    perm(find(R, T)) if role(R, hero), object(T, shield);
+initially
+    perm(die(R)) if role(R, hero);
+initially
+    phase(example2, active),
+    role(hero, hero),
+    object(sword, sword),
+    object(shield, shield);

@@ -1,0 +1,1 @@
+{:exit 0, :out "There are 22 answer sets\n", :err ""}

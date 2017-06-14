@@ -1,0 +1,126 @@
+institution example3;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Example 3 ----------
+exogenous event kill(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event find(Agent, ObjectName);
+exogenous event meet(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Example 3 ----------
+violation event noViolation;
+
+% INST EVENTS: Example 3 ----------
+inst event intKill(Agent, Agent);
+inst event intFind(Agent, ObjectName);
+inst event intGo(Agent, PlaceName);
+inst event intMeet(Agent, Agent);
+inst event intExample3(Agent, Agent, Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Example 3 ----------
+intExample3(R, S, T, U, V, W) initiates
+    phase(example3, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(example3, active),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intExample3(R, S, T, U, V, W) initiates
+    phase(example3, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(example3, phaseA),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+% TERMINATES: Example 3 ----------
+intExample3(R, S, T, U, V, W) terminates
+    phase(example3, active),
+    perm(go(R, V)) if
+        phase(example3, active),
+        role(R, hero),
+        place(V, home);
+intExample3(R, S, T, U, V, W) terminates
+    phase(example3, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(example3, phaseA),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intExample3(R, S, T, U, V, W) terminates
+    phase(example3, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(example3, phaseB),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+
+
+% GENERATES: Example 3 ----------
+go(R, V) generates
+    intExample3(R, S, T, U, V, W) if
+        role(R, hero),
+        place(V, home);
+kill(R, S) generates
+    intExample3(R, S, T, U, V, W) if
+        role(R, hero),
+        role(S, villain);
+meet(R, T) generates
+    intExample3(R, S, T, U, V, W) if
+        role(R, hero),
+        role(T, mentor);
+go(R, W) generates
+    intExample3(R, S, T, U, V, W) if
+        role(R, hero),
+        place(W, landOfAdventure);
+find(R, U) generates
+    intExample3(R, S, T, U, V, W) if
+        role(R, hero),
+        object(U, sword);
+
+% INITIALLY: -----------
+initially
+    pow(intExample3(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    perm(intExample3(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(evilLair, evilLair),
+    place(landOfAdventure, landOfAdventure),
+    place(home, home),
+    object(weapon, weapon),
+    object(evilPlan, evilPlan),
+    object(sword, sword);

@@ -1,0 +1,21 @@
+bridge newTropeExample1;
+
+
+
+source newTrope;
+
+sink example1;
+
+cross fluent ipow(newTrope, perm(go_home(Agent)), example1);
+cross fluent ipow(newTrope, phase(Trope, Phase), example1);
+
+intStartExample1 xinitiates phase(example1, active);
+intStartExample1 xinitiates perm(go_home(R)) if
+        role(R, hero);
+
+
+
+
+
+initially ipow(newTrope,  perm(go_home(R)), example1),
+    ipow(newTrope, phase(example1, active), example1);

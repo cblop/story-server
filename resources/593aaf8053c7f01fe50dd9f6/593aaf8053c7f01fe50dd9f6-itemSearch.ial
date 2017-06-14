@@ -1,0 +1,122 @@
+institution itemSearch;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Item Search ----------
+exogenous event kill(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event find(Agent, ObjectName);
+exogenous event meet(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Item Search ----------
+violation event noViolation;
+
+% INST EVENTS: Item Search ----------
+inst event intKill(Agent, Agent);
+inst event intFind(Agent, ObjectName);
+inst event intGo(Agent, PlaceName);
+inst event intMeet(Agent, Agent);
+inst event intItemSearch(Agent, Agent, Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Item Search ----------
+intItemSearch(R, S, T, U, V, W) initiates
+    phase(itemSearch, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(itemSearch, active),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intItemSearch(R, S, T, U, V, W) initiates
+    phase(itemSearch, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(itemSearch, phaseA),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+% TERMINATES: Item Search ----------
+intItemSearch(R, S, T, U, V, W) terminates
+    phase(itemSearch, active),
+    perm(go(R, V)) if
+        phase(itemSearch, active),
+        role(R, hero),
+        place(V, home);
+intItemSearch(R, S, T, U, V, W) terminates
+    phase(itemSearch, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(itemSearch, phaseA),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intItemSearch(R, S, T, U, V, W) terminates
+    phase(itemSearch, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(itemSearch, phaseB),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+
+
+% GENERATES: Item Search ----------
+go(R, V) generates
+    intItemSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        place(V, home);
+kill(R, S) generates
+    intItemSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        role(S, villain);
+meet(R, T) generates
+    intItemSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        role(T, mentor);
+go(R, W) generates
+    intItemSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        place(W, landOfAdventure);
+find(R, U) generates
+    intItemSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        object(U, sword);
+
+% INITIALLY: -----------
+initially
+    pow(intItemSearch(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    perm(intItemSearch(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    perm(go(R, V)) if role(R, hero), place(V, home);
+initially
+    phase(itemSearch, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(landOfAdventure, landOfAdventure),
+    object(sword, sword);

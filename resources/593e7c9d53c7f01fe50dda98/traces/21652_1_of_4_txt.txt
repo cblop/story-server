@@ -1,0 +1,77 @@
+Answer Set 1:
+
+Time Step 1:
+
+holdsat(role(hero,hero),example1)
+holdsat(place(landOfAdventure,landOfAdventure),example1)
+holdsat(place(home,home),example1)
+holdsat(phase(example1,active),example1)
+holdsat(object(sword,sword),example1)
+holdsat(pow(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(null),example1)
+holdsat(perm(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(go(hero,home)),example1)
+holdsat(live(example1),example1)
+occurred(null,example1)
+
+
+Time Step 2:
+
+holdsat(role(hero,hero),example1)
+holdsat(place(landOfAdventure,landOfAdventure),example1)
+holdsat(place(home,home),example1)
+holdsat(phase(example1,active),example1)
+holdsat(object(sword,sword),example1)
+holdsat(pow(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(null),example1)
+holdsat(perm(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(go(hero,home)),example1)
+holdsat(live(example1),example1)
+occurred(null,example1)
+
+
+Time Step 3:
+
+holdsat(role(hero,hero),example1)
+holdsat(place(landOfAdventure,landOfAdventure),example1)
+holdsat(place(home,home),example1)
+holdsat(phase(example1,active),example1)
+holdsat(object(sword,sword),example1)
+holdsat(pow(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(null),example1)
+holdsat(perm(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(go(hero,home)),example1)
+holdsat(live(example1),example1)
+occurred(null,example1)
+
+
+Time Step 4:
+
+holdsat(role(hero,hero),example1)
+holdsat(place(landOfAdventure,landOfAdventure),example1)
+holdsat(place(home,home),example1)
+holdsat(phase(example1,active),example1)
+holdsat(object(sword,sword),example1)
+holdsat(pow(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(null),example1)
+holdsat(perm(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(go(hero,home)),example1)
+holdsat(live(example1),example1)
+occurred(null,example1)
+
+
+Time Step 5:
+
+holdsat(role(hero,hero),example1)
+holdsat(place(landOfAdventure,landOfAdventure),example1)
+holdsat(place(home,home),example1)
+holdsat(phase(example1,active),example1)
+holdsat(object(sword,sword),example1)
+holdsat(pow(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(null),example1)
+holdsat(perm(intExample1(hero,sword,home,landOfAdventure)),example1)
+holdsat(perm(go(hero,home)),example1)
+holdsat(live(example1),example1)
+occurred(null,example1)
+
+

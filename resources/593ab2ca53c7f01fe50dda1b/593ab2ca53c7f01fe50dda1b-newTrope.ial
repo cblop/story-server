@@ -1,0 +1,118 @@
+institution newTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: New trope ----------
+exogenous event reside(Agent, PlaceName);
+exogenous event arrive(Agent, PlaceName);
+exogenous event go(Agent, PlaceName);
+exogenous event live(Agent, PlaceName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: New trope ----------
+violation event noViolation;
+
+% INST EVENTS: New trope ----------
+inst event intLive(Agent, PlaceName);
+inst event intGo(Agent, PlaceName);
+inst event intArrive(Agent, PlaceName);
+inst event intReside(Agent, PlaceName);
+inst event intNewTrope(Agent, Agent, Agent, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: New trope ----------
+intNewTrope(R, S, T, U, V) initiates
+    phase(newTrope, phaseA),
+    perm(arrive(R, V)) if
+        phase(newTrope, active),
+        role(R, hero),
+        place(V, home);
+intNewTrope(R, S, T, U, V) initiates
+    phase(newTrope, phaseB),
+    perm(live(T, V)) if
+        phase(newTrope, phaseA),
+        role(T, mentor),
+        place(V, home);
+intNewTrope(R, S, T, U, V) initiates
+    phase(newTrope, phaseC),
+    perm(go(R, U)) if
+        phase(newTrope, phaseB),
+        role(R, hero),
+        place(U, evilLair);
+% TERMINATES: New trope ----------
+intNewTrope(R, S, T, U, V) terminates
+    phase(newTrope, active),
+    perm(reside(S, U)) if
+        phase(newTrope, active),
+        role(S, villain),
+        place(U, evilLair);
+intNewTrope(R, S, T, U, V) terminates
+    phase(newTrope, phaseA),
+    perm(arrive(R, V)) if
+        phase(newTrope, phaseA),
+        role(R, hero),
+        place(V, home);
+intNewTrope(R, S, T, U, V) terminates
+    phase(newTrope, phaseB),
+    perm(live(T, V)) if
+        phase(newTrope, phaseB),
+        role(T, mentor),
+        place(V, home);
+intNewTrope(R, S, T, U, V) terminates
+    phase(newTrope, phaseC),
+    perm(go(R, U)) if
+        phase(newTrope, phaseC),
+        role(R, hero),
+        place(U, evilLair);
+
+
+% GENERATES: New trope ----------
+go(R, U) generates
+    intNewTrope(R, S, T, U, V) if
+        role(R, hero),
+        place(U, evilLair);
+arrive(R, V) generates
+    intNewTrope(R, S, T, U, V) if
+        role(R, hero),
+        place(V, home);
+live(T, V) generates
+    intNewTrope(R, S, T, U, V) if
+        role(T, mentor),
+        place(V, home);
+reside(S, U) generates
+    intNewTrope(R, S, T, U, V) if
+        role(S, villain),
+        place(U, evilLair);
+
+% INITIALLY: -----------
+initially
+    pow(intNewTrope(R, S, T, U, V)) if role(R, hero), role(S, villain), role(T, mentor), place(U, evilLair), place(V, home);
+initially
+    perm(intNewTrope(R, S, T, U, V)) if role(R, hero), role(S, villain), role(T, mentor), place(U, evilLair), place(V, home);
+initially
+    perm(reside(S, U)) if role(S, villain), place(U, evilLair);
+initially
+    phase(newTrope, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(evilLair, evilLair),
+    place(landOfAdventure, landOfAdventure);

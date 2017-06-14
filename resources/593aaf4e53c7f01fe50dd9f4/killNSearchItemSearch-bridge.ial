@@ -1,0 +1,22 @@
+bridge killNSearchItemSearch;
+
+
+
+source killNSearch;
+
+sink itemSearch;
+
+cross fluent ipow(killNSearch, perm(go(Agent, PlaceName)), itemSearch);
+cross fluent ipow(killNSearch, phase(Trope, Phase), itemSearch);
+
+intStartItemSearch xinitiates phase(itemSearch, active);
+intStartItemSearch xinitiates perm(go(R, V)) if
+        role(R, hero),
+        place(V, home);
+
+
+
+
+
+initially ipow(killNSearch,  perm(go(R, V)), itemSearch),
+    ipow(killNSearch, phase(itemSearch, active), itemSearch);

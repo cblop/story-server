@@ -1,0 +1,72 @@
+Answer Set 1:
+
+Time Step 1:
+
+holdsat(role(villain,villain),revengeTrope)
+holdsat(role(hero,hero),revengeTrope)
+holdsat(role(friend,friend),revengeTrope)
+holdsat(phase(revengeTrope,active),revengeTrope)
+holdsat(pow(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(perm(null),revengeTrope)
+holdsat(perm(kill(villain,friend)),revengeTrope)
+holdsat(perm(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(live(revengeTrope),revengeTrope)
+occurred(null,revengeTrope)
+
+
+Time Step 2:
+
+holdsat(role(villain,villain),revengeTrope)
+holdsat(role(hero,hero),revengeTrope)
+holdsat(role(friend,friend),revengeTrope)
+holdsat(phase(revengeTrope,active),revengeTrope)
+holdsat(pow(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(perm(null),revengeTrope)
+holdsat(perm(kill(villain,friend)),revengeTrope)
+holdsat(perm(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(live(revengeTrope),revengeTrope)
+occurred(null,revengeTrope)
+
+
+Time Step 3:
+
+holdsat(role(villain,villain),revengeTrope)
+holdsat(role(hero,hero),revengeTrope)
+holdsat(role(friend,friend),revengeTrope)
+holdsat(phase(revengeTrope,active),revengeTrope)
+holdsat(pow(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(perm(null),revengeTrope)
+holdsat(perm(kill(villain,friend)),revengeTrope)
+holdsat(perm(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(live(revengeTrope),revengeTrope)
+occurred(null,revengeTrope)
+
+
+Time Step 4:
+
+holdsat(role(villain,villain),revengeTrope)
+holdsat(role(hero,hero),revengeTrope)
+holdsat(role(friend,friend),revengeTrope)
+holdsat(phase(revengeTrope,active),revengeTrope)
+holdsat(pow(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(perm(null),revengeTrope)
+holdsat(perm(kill(villain,friend)),revengeTrope)
+holdsat(perm(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(live(revengeTrope),revengeTrope)
+occurred(null,revengeTrope)
+
+
+Time Step 5:
+
+holdsat(role(villain,villain),revengeTrope)
+holdsat(role(hero,hero),revengeTrope)
+holdsat(role(friend,friend),revengeTrope)
+holdsat(phase(revengeTrope,active),revengeTrope)
+holdsat(pow(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(perm(null),revengeTrope)
+holdsat(perm(kill(villain,friend)),revengeTrope)
+holdsat(perm(intRevengeTrope(hero,villain,friend)),revengeTrope)
+holdsat(live(revengeTrope),revengeTrope)
+occurred(null,revengeTrope)
+
+

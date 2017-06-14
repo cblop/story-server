@@ -1,0 +1,76 @@
+institution example2;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Example 2 ----------
+exogenous event go(Agent, PlaceName);
+exogenous event find(Agent, ObjectName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Example 2 ----------
+violation event noViolation;
+
+% INST EVENTS: Example 2 ----------
+inst event intFind(Agent, ObjectName);
+inst event intGo(Agent, PlaceName);
+inst event intExample2(Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Example 2 ----------
+% TERMINATES: Example 2 ----------
+intExample2(R, S, T, U) terminates
+    phase(example2, active),
+    perm(go(R, T)),
+    perm(find(R, S)),
+    perm(go(R, U)) if
+        phase(example2, active),
+        place(U, landOfAdventure),
+        place(T, home),
+        role(R, hero),
+        object(S, sword);
+
+
+% GENERATES: Example 2 ----------
+find(R, S) generates
+    intExample2(R, S, T, U) if
+        role(R, hero),
+        object(S, sword);
+go(R, U) generates
+    intExample2(R, S, T, U) if
+        role(R, hero),
+        place(U, landOfAdventure);
+go(R, T) generates
+    intExample2(R, S, T, U) if
+        role(R, hero),
+        place(T, home);
+
+% INITIALLY: -----------
+initially
+    pow(intExample2(R, S, T, U)) if role(R, hero), object(S, sword), place(T, home), place(U, landOfAdventure);
+initially
+    perm(intExample2(R, S, T, U)) if role(R, hero), object(S, sword), place(T, home), place(U, landOfAdventure);
+initially
+    perm(go(R, T)) if role(R, hero), place(T, home);
+initially
+    phase(example2, active),
+    role(hero, hero),
+    place(home, home),
+    place(landOfAdventure, landOfAdventure),
+    object(sword, sword);

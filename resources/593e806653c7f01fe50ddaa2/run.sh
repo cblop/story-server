@@ -1,0 +1,1 @@
+python3 instal-linux/instalquery.py -v -i resources/constraint.lp resources/593e806653c7f01fe50ddaa2/593e806653c7f01fe50ddaa2-example1.ial resources/593e806653c7f01fe50ddaa2/593e806653c7f01fe50ddaa2-task2.ial -l 5 -n 500 -j resources/593e806653c7f01fe50ddaa2/json -d resources/593e806653c7f01fe50ddaa2/domain-593e806653c7f01fe50ddaa2.idc

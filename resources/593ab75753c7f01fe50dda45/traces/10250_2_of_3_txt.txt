@@ -1,0 +1,68 @@
+Answer Set 2:
+
+Time Step 1:
+
+holdsat(role(mentor,mentor),betrayalTrope)
+holdsat(role(hero,hero),betrayalTrope)
+holdsat(phase(betrayalTrope,phaseA),betrayalTrope)
+holdsat(pow(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(null),betrayalTrope)
+holdsat(perm(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(betray(hero,mentor)),betrayalTrope)
+holdsat(live(betrayalTrope),betrayalTrope)
+occurred(trust(hero,mentor),betrayalTrope)
+occurred(intBetrayalTrope(hero,mentor),betrayalTrope)
+
+
+Time Step 2:
+
+holdsat(role(mentor,mentor),betrayalTrope)
+holdsat(role(hero,hero),betrayalTrope)
+holdsat(phase(betrayalTrope,phaseA),betrayalTrope)
+holdsat(pow(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(null),betrayalTrope)
+holdsat(perm(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(betray(hero,mentor)),betrayalTrope)
+holdsat(live(betrayalTrope),betrayalTrope)
+occurred(null,betrayalTrope)
+
+
+Time Step 3:
+
+holdsat(role(mentor,mentor),betrayalTrope)
+holdsat(role(hero,hero),betrayalTrope)
+holdsat(phase(betrayalTrope,phaseA),betrayalTrope)
+holdsat(pow(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(null),betrayalTrope)
+holdsat(perm(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(betray(hero,mentor)),betrayalTrope)
+holdsat(live(betrayalTrope),betrayalTrope)
+occurred(null,betrayalTrope)
+
+
+Time Step 4:
+
+holdsat(role(mentor,mentor),betrayalTrope)
+holdsat(role(hero,hero),betrayalTrope)
+holdsat(phase(betrayalTrope,phaseA),betrayalTrope)
+holdsat(pow(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(null),betrayalTrope)
+holdsat(perm(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(betray(hero,mentor)),betrayalTrope)
+holdsat(live(betrayalTrope),betrayalTrope)
+occurred(null,betrayalTrope)
+
+
+Time Step 5:
+
+holdsat(role(mentor,mentor),betrayalTrope)
+holdsat(role(hero,hero),betrayalTrope)
+holdsat(phase(betrayalTrope,phaseA),betrayalTrope)
+holdsat(pow(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(null),betrayalTrope)
+holdsat(perm(intBetrayalTrope(hero,mentor)),betrayalTrope)
+holdsat(perm(betray(hero,mentor)),betrayalTrope)
+holdsat(live(betrayalTrope),betrayalTrope)
+occurred(null,betrayalTrope)
+
+

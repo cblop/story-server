@@ -1,0 +1,21 @@
+bridge killNSearchExample1;
+
+
+
+source killNSearch;
+
+sink example1;
+
+cross fluent ipow(killNSearch, perm(go_home(Agent)), example1);
+cross fluent ipow(killNSearch, phase(Trope, Phase), example1);
+
+intStartExample1 xinitiates phase(example1, active);
+intStartExample1 xinitiates perm(go_home(R)) if
+        role(R, hero);
+
+
+
+
+
+initially ipow(killNSearch,  perm(go_home(R)), example1),
+    ipow(killNSearch, phase(example1, active), example1);

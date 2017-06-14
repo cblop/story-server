@@ -1,0 +1,101 @@
+institution killNSearch;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Kill then Search ----------
+
+exogenous event kill(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Kill then Search ----------
+violation event noViolation;
+
+% INST EVENTS: Kill then Search ----------
+
+inst event intKill(Agent, Agent);
+inst event intGo(Agent, PlaceName);
+inst event intStartExample1;
+inst event intKillNSearch(Agent, Agent, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Kill then Search ----------
+intKillNSearch(R, S, T) initiates
+    phase(killNSearch, phaseA),
+    perm(kill(R, S)) if
+        phase(killNSearch, active),
+        role(R, hero),
+        role(S, villain);
+intKillNSearch(R, S, T) initiates
+    phase(killNSearch, phaseB) if
+        phase(killNSearch, phaseA);
+% TERMINATES: Kill then Search ----------
+intKillNSearch(R, S, T) terminates
+    phase(killNSearch, active),
+    perm(go(R, T)) if
+        phase(killNSearch, active),
+        role(R, hero),
+        place(T, away);
+intKillNSearch(R, S, T) terminates
+    phase(killNSearch, phaseA),
+    perm(kill(R, S)) if
+        phase(killNSearch, phaseA),
+        role(R, hero),
+        role(S, villain);
+intKillNSearch(R, S, T) terminates
+    phase(killNSearch, phaseB) if
+        phase(killNSearch, phaseB);
+
+
+% GENERATES: Kill then Search ----------
+kill(R, S) generates
+    intStartExample1 if
+        role(R, hero),
+        role(S, villain),
+        phase(killNSearch, phaseA);
+
+go(R, T) generates
+    intKillNSearch(R, S, T) if
+        role(R, hero),
+        place(T, away);
+kill(R, S) generates
+    intKillNSearch(R, S, T) if
+        role(R, hero),
+        role(S, villain);
+
+% INITIALLY: -----------
+initially
+    pow(intStartExample1);
+initially
+    pow(intKillNSearch(R, S, T)) if role(R, hero), role(S, villain), place(T, away);
+initially
+    perm(intStartExample1);
+initially
+    perm(intKillNSearch(R, S, T)) if role(R, hero), role(S, villain), place(T, away);
+initially
+    perm(go(R, T)) if role(R, hero), place(T, away);
+initially
+    phase(killNSearch, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(hero, hero),
+    place(away, away),
+    place(landOfAdventure, landOfAdventure),
+    object(sword, sword);

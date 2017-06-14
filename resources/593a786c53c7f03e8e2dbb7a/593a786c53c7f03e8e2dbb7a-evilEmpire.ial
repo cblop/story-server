@@ -1,0 +1,52 @@
+institution evilEmpire;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Evil Empire ----------
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Evil Empire ----------
+violation event noViolation;
+
+% INST EVENTS: Evil Empire ----------
+inst event intEvilEmpire();
+inst event intNoDeadline;
+
+
+
+% INITIATES: Evil Empire ----------
+% TERMINATES: Evil Empire ----------
+intEvilEmpire() terminates
+    phase(evilEmpire, active) if
+        phase(evilEmpire, active);
+
+
+% GENERATES: Evil Empire ----------
+
+% INITIALLY: -----------
+initially
+    pow(intEvilEmpire()) if ;
+initially
+    perm(intEvilEmpire()) if ;
+initially
+    perm(()) if ;
+initially
+    phase(evilEmpire, active),
+    role(hero, hero),
+    role(villain, villain),
+    object(empire, empire);

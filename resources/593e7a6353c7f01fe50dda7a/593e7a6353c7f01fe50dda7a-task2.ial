@@ -1,0 +1,82 @@
+institution task2;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Task 2 ----------
+exogenous event go(Agent, PlaceName);
+exogenous event meet(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Task 2 ----------
+violation event noViolation;
+
+% INST EVENTS: Task 2 ----------
+inst event intGo(Agent, PlaceName);
+inst event intMeet(Agent, Agent);
+inst event intTask2(Agent, Agent, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Task 2 ----------
+intTask2(R, S, T) initiates
+    phase(task2, phaseA),
+    perm(meet(R, S)) if
+        phase(task2, active),
+        role(R, hero),
+        role(S, mentor);
+% TERMINATES: Task 2 ----------
+intTask2(R, S, T) terminates
+    phase(task2, active),
+    perm(go(R, T)) if
+        phase(task2, active),
+        role(R, hero),
+        place(T, home);
+intTask2(R, S, T) terminates
+    phase(task2, phaseA),
+    perm(meet(R, S)) if
+        phase(task2, phaseA),
+        role(R, hero),
+        role(S, mentor);
+
+
+% GENERATES: Task 2 ----------
+go(R, T) generates
+    intTask2(R, S, T) if
+        role(R, hero),
+        place(T, home);
+meet(R, S) generates
+    intTask2(R, S, T) if
+        role(R, hero),
+        role(S, mentor);
+
+% INITIALLY: -----------
+initially
+    pow(intTask2(R, S, T)) if role(R, hero), role(S, mentor), place(T, home);
+initially
+    perm(intTask2(R, S, T)) if role(R, hero), role(S, mentor), place(T, home);
+initially
+    perm(go(R, T)) if role(R, hero), place(T, home);
+initially
+    phase(task2, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(evilLair, evilLair),
+    place(landOfAdventure, landOfAdventure);

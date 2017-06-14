@@ -1,0 +1,122 @@
+institution killNSearch;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Kill then Search ----------
+exogenous event kill(Agent, Agent);
+exogenous event go(Agent, PlaceName);
+exogenous event find(Agent, ObjectName);
+exogenous event meet(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Kill then Search ----------
+violation event noViolation;
+
+% INST EVENTS: Kill then Search ----------
+inst event intKill(Agent, Agent);
+inst event intFind(Agent, ObjectName);
+inst event intGo(Agent, PlaceName);
+inst event intMeet(Agent, Agent);
+inst event intKillNSearch(Agent, Agent, Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Kill then Search ----------
+intKillNSearch(R, S, T, U, V, W) initiates
+    phase(killNSearch, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(killNSearch, active),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intKillNSearch(R, S, T, U, V, W) initiates
+    phase(killNSearch, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(killNSearch, phaseA),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+% TERMINATES: Kill then Search ----------
+intKillNSearch(R, S, T, U, V, W) terminates
+    phase(killNSearch, active),
+    perm(go(R, V)) if
+        phase(killNSearch, active),
+        role(R, hero),
+        place(V, home);
+intKillNSearch(R, S, T, U, V, W) terminates
+    phase(killNSearch, phaseA),
+    perm(find(R, U)),
+    perm(go(R, W)),
+    perm(kill(R, S)) if
+        phase(killNSearch, phaseA),
+        object(U, sword),
+        role(R, hero),
+        place(W, landOfAdventure),
+        role(S, villain);
+intKillNSearch(R, S, T, U, V, W) terminates
+    phase(killNSearch, phaseB),
+    perm(meet(R, T)),
+    perm(go(R, V)) if
+        phase(killNSearch, phaseB),
+        role(R, hero),
+        role(T, mentor),
+        place(V, home);
+
+
+% GENERATES: Kill then Search ----------
+kill(R, S) generates
+    intKillNSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        role(S, villain);
+go(R, W) generates
+    intKillNSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        place(W, landOfAdventure);
+find(R, U) generates
+    intKillNSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        object(U, sword);
+meet(R, T) generates
+    intKillNSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        role(T, mentor);
+go(R, V) generates
+    intKillNSearch(R, S, T, U, V, W) if
+        role(R, hero),
+        place(V, home);
+
+% INITIALLY: -----------
+initially
+    pow(intKillNSearch(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    perm(intKillNSearch(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, sword), place(V, home), place(W, landOfAdventure);
+initially
+    perm(go(R, V)) if role(R, hero), place(V, home);
+initially
+    phase(killNSearch, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(landOfAdventure, landOfAdventure),
+    object(sword, sword);

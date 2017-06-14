@@ -1,0 +1,89 @@
+institution useSubTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Use Sub Trope ----------
+
+exogenous event train(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Use Sub Trope ----------
+violation event noViolation;
+
+% INST EVENTS: Use Sub Trope ----------
+
+inst event intTrain(Agent, Agent);
+inst event intStartTask2;
+inst event intUseSubTrope(Agent, Agent);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Use Sub Trope ----------
+intUseSubTrope(R, S) initiates
+    phase(useSubTrope, phaseA) if
+        phase(useSubTrope, active);
+% TERMINATES: Use Sub Trope ----------
+intUseSubTrope(R, S) terminates
+    phase(useSubTrope, active),
+    perm(train(R, S)) if
+        phase(useSubTrope, active),
+        role(S, mentor),
+        role(R, hero);
+intUseSubTrope(R, S) terminates
+    phase(useSubTrope, phaseA) if
+        phase(useSubTrope, phaseA);
+
+
+% GENERATES: Use Sub Trope ----------
+train(R, T) generates
+    intStartTask2 if
+        role(T, mentor),
+        role(R, hero),
+        phase(useSubTrope, active);
+
+train(R, S) generates
+    intUseSubTrope(R, S) if
+        role(S, mentor),
+        role(R, hero);
+
+% INITIALLY: -----------
+initially
+    pow(intStartTask2);
+initially
+    pow(intUseSubTrope(R, S)) if role(R, hero), role(S, mentor);
+initially
+    perm(intStartTask2);
+initially
+    perm(intUseSubTrope(R, S)) if role(R, hero), role(S, mentor);
+initially
+    perm(train(R, S)) if role(S, mentor), role(R, hero);
+initially
+    phase(useSubTrope, active),
+    role(hero, hero),
+    role(mentor, mentor),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(trainingPlace, trainingPlace),
+    place(home, home),
+    place(lair, lair),
+    place(landOfAdventure, landOfAdventure),
+    object(fightingStick, fightingStick),
+    object(weapon, weapon),
+    object(evilPlan, evilPlan);

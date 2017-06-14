@@ -1,0 +1,64 @@
+institution newTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: New trope ----------
+exogenous event go(Agent, PlaceName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: New trope ----------
+violation event noViolation;
+
+% INST EVENTS: New trope ----------
+inst event intGo(Agent, PlaceName);
+inst event intNewTrope(Agent, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: New trope ----------
+% TERMINATES: New trope ----------
+intNewTrope(R, S) terminates
+    phase(newTrope, active),
+    perm(go(R, S)) if
+        phase(newTrope, active),
+        role(R, hero),
+        place(S, home);
+
+
+% GENERATES: New trope ----------
+go(R, S) generates
+    intNewTrope(R, S) if
+        role(R, hero),
+        place(S, home);
+
+% INITIALLY: -----------
+initially
+    pow(intNewTrope(R, S)) if role(R, hero), place(S, home);
+initially
+    perm(intNewTrope(R, S)) if role(R, hero), place(S, home);
+initially
+    perm(go(R, S)) if role(R, hero), place(S, home);
+initially
+    phase(newTrope, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(evilLair, evilLair),
+    place(landOfAdventure, landOfAdventure);

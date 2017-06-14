@@ -1,0 +1,22 @@
+bridge useSubTropeTask2;
+
+
+
+source useSubTrope;
+
+sink task2;
+
+cross fluent ipow(useSubTrope, perm(go(Agent, PlaceName)), task2);
+cross fluent ipow(useSubTrope, phase(Trope, Phase), task2);
+
+intStartTask2 xinitiates phase(task2, active);
+intStartTask2 xinitiates perm(go(R, V)) if
+        role(R, hero),
+        place(V, lair);
+
+
+
+
+
+initially ipow(useSubTrope,  perm(go(R, V)), task2),
+    ipow(useSubTrope, phase(task2, active), task2);

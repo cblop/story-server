@@ -1,0 +1,1 @@
+python3 instal-linux/instalquery.py -v -i resources/constraint.lp resources/593ab76853c7f01fe50dda46/593ab76853c7f01fe50dda46-revengeTrope.ial -l 5 -n 500 -j resources/593ab76853c7f01fe50dda46/json -d resources/593ab76853c7f01fe50dda46/domain-593ab76853c7f01fe50dda46.idc

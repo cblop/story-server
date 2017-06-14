@@ -1,0 +1,92 @@
+institution revengeTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Revenge Trope ----------
+exogenous event kill(Agent, Agent);
+exogenous event anger(Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Revenge Trope ----------
+violation event noViolation;
+
+% INST EVENTS: Revenge Trope ----------
+inst event intKill(Agent, Agent);
+inst event intAnger(Agent);
+inst event intRevengeTrope(Agent, Agent, Agent);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Revenge Trope ----------
+intRevengeTrope(R, S, T) initiates
+    phase(revengeTrope, phaseA),
+    perm(anger(R)) if
+        phase(revengeTrope, active),
+        role(R, hero);
+intRevengeTrope(R, S, T) initiates
+    phase(revengeTrope, phaseB),
+    perm(kill(R, S)) if
+        phase(revengeTrope, phaseA),
+        role(R, hero),
+        role(S, villain);
+% TERMINATES: Revenge Trope ----------
+intRevengeTrope(R, S, T) terminates
+    phase(revengeTrope, active),
+    perm(kill(S, T)) if
+        phase(revengeTrope, active),
+        role(S, villain),
+        role(T, friend);
+intRevengeTrope(R, S, T) terminates
+    phase(revengeTrope, phaseA),
+    perm(anger(R)) if
+        phase(revengeTrope, phaseA),
+        role(R, hero);
+intRevengeTrope(R, S, T) terminates
+    phase(revengeTrope, phaseB),
+    perm(kill(R, S)) if
+        phase(revengeTrope, phaseB),
+        role(R, hero),
+        role(S, villain);
+
+
+% GENERATES: Revenge Trope ----------
+kill(S, T) generates
+    intRevengeTrope(R, S, T) if
+        role(S, villain),
+        role(T, friend);
+kill(R, S) generates
+    intRevengeTrope(R, S, T) if
+        role(R, hero),
+        role(S, villain);
+anger(R) generates
+    intRevengeTrope(R, S, T) if
+        role(R, hero);
+
+% INITIALLY: -----------
+initially
+    pow(intRevengeTrope(R, S, T)) if role(R, hero), role(S, villain), role(T, friend);
+initially
+    perm(intRevengeTrope(R, S, T)) if role(R, hero), role(S, villain), role(T, friend);
+initially
+    perm(kill(S, T)) if role(S, villain), role(T, friend);
+initially
+    phase(revengeTrope, active),
+    role(villain, villain),
+    role(hero, hero),
+    role(friend, friend);

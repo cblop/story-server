@@ -1,0 +1,1 @@
+python3 instal-linux/instalquery.py -v -i resources/constraint.lp resources/593a788a53c7f03e8e2dbb7d/593a788a53c7f03e8e2dbb7d-evilEmpire.ial -l 5 -n 500 -j resources/593a788a53c7f03e8e2dbb7d/json -d resources/593a788a53c7f03e8e2dbb7d/domain-593a788a53c7f03e8e2dbb7d.idc

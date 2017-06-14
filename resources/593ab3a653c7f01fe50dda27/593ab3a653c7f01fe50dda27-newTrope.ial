@@ -1,0 +1,138 @@
+institution newTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: New trope ----------
+exogenous event reside(Agent, PlaceName);
+exogenous event arrive(Agent, PlaceName);
+exogenous event go(Agent, PlaceName);
+exogenous event live(Agent, PlaceName);
+exogenous event possess(Agent, ObjectName);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: New trope ----------
+violation event noViolation;
+
+% INST EVENTS: New trope ----------
+inst event intPossess(Agent, ObjectName);
+inst event intLive(Agent, PlaceName);
+inst event intGo(Agent, PlaceName);
+inst event intArrive(Agent, PlaceName);
+inst event intReside(Agent, PlaceName);
+inst event intNewTrope(Agent, Agent, Agent, ObjectName, PlaceName, PlaceName);
+inst event intNoDeadline;
+
+
+
+% INITIATES: New trope ----------
+intNewTrope(R, S, T, U, V, W) initiates
+    phase(newTrope, phaseA),
+    perm(possess(S, U)) if
+        phase(newTrope, active),
+        role(S, villain),
+        object(U, evilPlan);
+intNewTrope(R, S, T, U, V, W) initiates
+    phase(newTrope, phaseB),
+    perm(arrive(R, W)) if
+        phase(newTrope, phaseA),
+        role(R, hero),
+        place(W, home);
+intNewTrope(R, S, T, U, V, W) initiates
+    phase(newTrope, phaseC),
+    perm(live(T, W)) if
+        phase(newTrope, phaseB),
+        role(T, mentor),
+        place(W, home);
+intNewTrope(R, S, T, U, V, W) initiates
+    phase(newTrope, phaseD),
+    perm(go(R, V)) if
+        phase(newTrope, phaseC),
+        role(R, hero),
+        place(V, evilLair);
+% TERMINATES: New trope ----------
+intNewTrope(R, S, T, U, V, W) terminates
+    phase(newTrope, active),
+    perm(reside(S, V)) if
+        phase(newTrope, active),
+        role(S, villain),
+        place(V, evilLair);
+intNewTrope(R, S, T, U, V, W) terminates
+    phase(newTrope, phaseA),
+    perm(possess(S, U)) if
+        phase(newTrope, phaseA),
+        role(S, villain),
+        object(U, evilPlan);
+intNewTrope(R, S, T, U, V, W) terminates
+    phase(newTrope, phaseB),
+    perm(arrive(R, W)) if
+        phase(newTrope, phaseB),
+        role(R, hero),
+        place(W, home);
+intNewTrope(R, S, T, U, V, W) terminates
+    phase(newTrope, phaseC),
+    perm(live(T, W)) if
+        phase(newTrope, phaseC),
+        role(T, mentor),
+        place(W, home);
+intNewTrope(R, S, T, U, V, W) terminates
+    phase(newTrope, phaseD),
+    perm(go(R, V)) if
+        phase(newTrope, phaseD),
+        role(R, hero),
+        place(V, evilLair);
+
+
+% GENERATES: New trope ----------
+go(R, V) generates
+    intNewTrope(R, S, T, U, V, W) if
+        role(R, hero),
+        place(V, evilLair);
+live(T, W) generates
+    intNewTrope(R, S, T, U, V, W) if
+        role(T, mentor),
+        place(W, home);
+reside(S, V) generates
+    intNewTrope(R, S, T, U, V, W) if
+        role(S, villain),
+        place(V, evilLair);
+arrive(R, W) generates
+    intNewTrope(R, S, T, U, V, W) if
+        role(R, hero),
+        place(W, home);
+possess(S, U) generates
+    intNewTrope(R, S, T, U, V, W) if
+        role(S, villain),
+        object(U, evilPlan);
+
+% INITIALLY: -----------
+initially
+    pow(intNewTrope(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, evilPlan), place(V, evilLair), place(W, home);
+initially
+    perm(intNewTrope(R, S, T, U, V, W)) if role(R, hero), role(S, villain), role(T, mentor), object(U, evilPlan), place(V, evilLair), place(W, home);
+initially
+    perm(reside(S, V)) if role(S, villain), place(V, evilLair);
+initially
+    phase(newTrope, active),
+    role(hero, hero),
+    role(villain, villain),
+    role(mentor, mentor),
+    place(home, home),
+    place(evilLair, evilLair),
+    place(landOfAdventure, landOfAdventure),
+    object(weapon, weapon),
+    object(evilPlan, evilPlan);

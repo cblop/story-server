@@ -1,0 +1,86 @@
+institution evilEmpire;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Evil Empire ----------
+exogenous event kill(Agent, Agent);
+exogenous event escape(Agent);
+exogenous event fight(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Evil Empire ----------
+violation event noViolation;
+
+% INST EVENTS: Evil Empire ----------
+inst event intFight(Agent, Agent);
+inst event intKill(Agent, Agent);
+inst event intEscape(Agent);
+inst event intEvilEmpire(Agent, Agent);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Evil Empire ----------
+intEvilEmpire(R, S) initiates
+    phase(evilEmpire, phaseA),
+    perm(escape(R)),
+    perm(kill(R, S)) if
+        phase(evilEmpire, active),
+        role(R, hero),
+        role(S, villain);
+% TERMINATES: Evil Empire ----------
+intEvilEmpire(R, S) terminates
+    phase(evilEmpire, active),
+    perm(fight(R, S)) if
+        phase(evilEmpire, active),
+        role(S, villain),
+        role(R, hero);
+intEvilEmpire(R, S) terminates
+    phase(evilEmpire, phaseA),
+    perm(escape(R)),
+    perm(kill(R, S)) if
+        phase(evilEmpire, phaseA),
+        role(R, hero),
+        role(S, villain);
+
+
+% GENERATES: Evil Empire ----------
+escape(R) generates
+    intEvilEmpire(R, S) if
+        role(R, hero);
+kill(R, S) generates
+    intEvilEmpire(R, S) if
+        role(S, villain),
+        role(R, hero);
+fight(R, S) generates
+    intEvilEmpire(R, S) if
+        role(S, villain),
+        role(R, hero);
+
+% INITIALLY: -----------
+initially
+    pow(intEvilEmpire(R, S)) if role(R, hero), role(S, villain);
+initially
+    perm(intEvilEmpire(R, S)) if role(R, hero), role(S, villain);
+initially
+    perm(fight(R, S)) if role(S, villain), role(R, hero);
+initially
+    phase(evilEmpire, active),
+    role(hero, hero),
+    role(villain, villain),
+    object(empire, empire);

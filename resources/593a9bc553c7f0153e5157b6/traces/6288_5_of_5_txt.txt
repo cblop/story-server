@@ -1,0 +1,77 @@
+Answer Set 5:
+
+Time Step 1:
+
+holdsat(role(villain,villain),herosJourney)
+holdsat(role(hero,hero),herosJourney)
+holdsat(place(home,home),herosJourney)
+holdsat(place(away,away),herosJourney)
+holdsat(phase(herosJourney,phaseA),herosJourney)
+holdsat(pow(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(null),herosJourney)
+holdsat(perm(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(go(hero,away)),herosJourney)
+holdsat(live(herosJourney),herosJourney)
+occurred(intHerosJourney(hero,villain,away,home),herosJourney)
+occurred(at(hero,home),herosJourney)
+
+
+Time Step 2:
+
+holdsat(role(villain,villain),herosJourney)
+holdsat(role(hero,hero),herosJourney)
+holdsat(place(home,home),herosJourney)
+holdsat(place(away,away),herosJourney)
+holdsat(phase(herosJourney,phaseB),herosJourney)
+holdsat(pow(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(null),herosJourney)
+holdsat(perm(kill(hero,villain)),herosJourney)
+holdsat(perm(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(live(herosJourney),herosJourney)
+occurred(intHerosJourney(hero,villain,away,home),herosJourney)
+occurred(go(hero,away),herosJourney)
+
+
+Time Step 3:
+
+holdsat(role(villain,villain),herosJourney)
+holdsat(role(hero,hero),herosJourney)
+holdsat(place(home,home),herosJourney)
+holdsat(place(away,away),herosJourney)
+holdsat(phase(herosJourney,phaseC),herosJourney)
+holdsat(pow(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(return(hero,home)),herosJourney)
+holdsat(perm(null),herosJourney)
+holdsat(perm(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(live(herosJourney),herosJourney)
+occurred(kill(hero,villain),herosJourney)
+occurred(intHerosJourney(hero,villain,away,home),herosJourney)
+
+
+Time Step 4:
+
+holdsat(role(villain,villain),herosJourney)
+holdsat(role(hero,hero),herosJourney)
+holdsat(place(home,home),herosJourney)
+holdsat(place(away,away),herosJourney)
+holdsat(pow(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(null),herosJourney)
+holdsat(perm(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(live(herosJourney),herosJourney)
+occurred(return(hero,home),herosJourney)
+occurred(intHerosJourney(hero,villain,away,home),herosJourney)
+
+
+Time Step 5:
+
+holdsat(role(villain,villain),herosJourney)
+holdsat(role(hero,hero),herosJourney)
+holdsat(place(home,home),herosJourney)
+holdsat(place(away,away),herosJourney)
+holdsat(pow(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(perm(null),herosJourney)
+holdsat(perm(intHerosJourney(hero,villain,away,home)),herosJourney)
+holdsat(live(herosJourney),herosJourney)
+occurred(null,herosJourney)
+
+

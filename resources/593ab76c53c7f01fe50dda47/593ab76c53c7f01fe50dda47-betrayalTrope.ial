@@ -1,0 +1,81 @@
+institution betrayalTrope;
+% TYPES ----------
+type Identity;
+type Agent;
+type Role;
+type Trope;
+type Phase;
+type Place;
+type PlaceName;
+type Object;
+type ObjectName;
+
+% FLUENTS ----------
+fluent role(Agent, Role);
+fluent phase(Trope, Phase);
+fluent place(PlaceName, Place);
+fluent object(ObjectName, Object);
+
+
+% EXTERNAL EVENTS: Betrayal Trope ----------
+exogenous event trust(Agent, Agent);
+exogenous event betray(Agent, Agent);
+exogenous event noDeadline;
+
+% VIOLATION EVENTS: Betrayal Trope ----------
+violation event noViolation;
+
+% INST EVENTS: Betrayal Trope ----------
+inst event intBetray(Agent, Agent);
+inst event intTrust(Agent, Agent);
+inst event intBetrayalTrope(Agent, Agent);
+inst event intNoDeadline;
+
+
+
+% INITIATES: Betrayal Trope ----------
+intBetrayalTrope(R, S) initiates
+    phase(betrayalTrope, phaseA),
+    perm(betray(R, S)) if
+        phase(betrayalTrope, active),
+        role(S, mentor),
+        role(R, hero);
+% TERMINATES: Betrayal Trope ----------
+intBetrayalTrope(R, S) terminates
+    phase(betrayalTrope, active),
+    perm(trust(R, S)) if
+        phase(betrayalTrope, active),
+        role(R, hero),
+        role(S, mentor);
+intBetrayalTrope(R, S) terminates
+    phase(betrayalTrope, phaseA),
+    perm(betray(R, S)) if
+        phase(betrayalTrope, phaseA),
+        role(S, mentor),
+        role(R, hero);
+
+
+% GENERATES: Betrayal Trope ----------
+betray(R, S) generates
+    intBetrayalTrope(R, S) if
+        role(S, mentor),
+        role(R, hero);
+trust(R, S) generates
+    intBetrayalTrope(R, S) if
+        role(R, hero),
+        role(S, mentor);
+
+% INITIALLY: -----------
+initially
+    pow(intBetrayalTrope(R, S)) if role(R, hero), role(S, mentor);
+initially
+    perm(intBetrayalTrope(R, S)) if role(R, hero), role(S, mentor);
+initially
+    perm(trust(R, S)) if role(R, hero), role(S, mentor);
+initially
+    phase(betrayalTrope, active),
+    role(villain, villain),
+    role(hero, hero),
+    role(friend, friend),
+    role(mentor, mentor),
+    role(hero, hero);
